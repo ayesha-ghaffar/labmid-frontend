@@ -26,8 +26,8 @@ function RegisterLogin({ onLoginSuccess }) {
       return;
     }
 
-    if (username.length < 3) {
-      setMessage('Username must be at least 3 characters long.');
+    if (username.length < 4) {
+      setMessage('Username must be at least 4 characters long.');
       return;
     }
 

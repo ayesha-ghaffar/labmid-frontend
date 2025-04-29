@@ -4,13 +4,11 @@ import Dashboard from './components/Dashboard';
 import PostProject from './components/PostProject';
 import SearchArchitects from './components/SearchArchitects';
 import UserProfile from './components/UserProfile';
-import ArchitectProfile from './components/ArchitectProfile';
 import './App.css';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('login'); 
   const [username, setUsername] = useState('');
-  const [selectedArchitect, setSelectedArchitect] = useState(null);
 
   const handleLoginSuccess = (user) => {
     setUsername(user);
@@ -25,11 +23,6 @@ function App() {
     }
   };
 
-  const handleArchitectSelect = (architect) => {
-    setSelectedArchitect(architect);
-    setCurrentScreen('architectProfile');
-  };
-
   return (
     <div className="App">
       {currentScreen === 'login' && (
@@ -37,11 +30,7 @@ function App() {
       )}
 
       {currentScreen === 'dashboard' && (
-        <Dashboard
-          username={username}
-          onNavigate={setCurrentScreen}
-          onLogout={handleLogout}
-        />
+        <Dashboard username={username} onNavigate={setCurrentScreen} onLogout={handleLogout}/>
       )}
 
       {currentScreen === 'postProject' && (
@@ -54,7 +43,7 @@ function App() {
       {currentScreen === 'searchArchitect' && (
         <div>
           <Navbar onNavigate={setCurrentScreen} onLogout={handleLogout} username={username} />
-          <SearchArchitects onSelectArchitect={handleArchitectSelect} />
+          <SearchArchitects />
         </div>
       )}
 
@@ -62,13 +51,6 @@ function App() {
         <div>
           <Navbar onNavigate={setCurrentScreen} onLogout={handleLogout} username={username} />
           <UserProfile username={username} />
-        </div>
-      )}
-
-      {currentScreen === 'architectProfile' && (
-        <div>
-          <Navbar onNavigate={setCurrentScreen} onLogout={handleLogout} username={username} />
-          <ArchitectProfile architect={selectedArchitect} />
         </div>
       )}
     </div>
