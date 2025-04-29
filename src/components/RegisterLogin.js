@@ -6,14 +6,47 @@ function RegisterLogin({ onLoginSuccess }) {
   const [isRegistering, setIsRegistering] = useState(true);
   const [message, setMessage] = useState('');
 
+  const hasUpperCase = (str) => str.split('').some(c => c >= 'A' && c <= 'Z');
+  const hasLowerCase = (str) => str.split('').some(c => c >= 'a' && c <= 'z');
+  const hasDigit = (str) => str.split('').some(c => c >= '0' && c <= '9');
+  const isAlphanumericUnderscore = (str) => {
+    return str.split('').every(c => (
+      (c >= 'A' && c <= 'Z') ||
+      (c >= 'a' && c <= 'z') ||
+      (c >= '0' && c <= '9') ||
+      c === '_'
+    ));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!username || !password) {
       setMessage('Please fill all fields.');
-    } else {
-      setMessage('');
-      onLoginSuccess(username); // pass username to App
+      return;
     }
+
+    if (username.length < 3) {
+      setMessage('Username must be at least 3 characters long.');
+      return;
+    }
+
+    if (!isAlphanumericUnderscore(username)) {
+      setMessage('Username can only contain letters, numbers, and underscores.');
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage('Password must be at least 6 characters long.');
+      return;
+    }
+
+    if (!hasUpperCase(password) || !hasLowerCase(password) || !hasDigit(password)) {
+      setMessage('Password must have at least one uppercase letter, one lowercase letter, and one number.');
+      return;
+    }
+    setMessage('');
+    onLoginSuccess(username);
   };
 
   return (
